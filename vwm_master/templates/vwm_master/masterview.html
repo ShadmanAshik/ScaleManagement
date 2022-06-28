@@ -1,0 +1,310 @@
+{% extends 'vwm_master/base.html' %}
+
+{% load static %}
+{% load i18n %}
+
+
+{% block content %}
+<div class="container-fluid">
+				
+    <div class="row page-titles">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active"><a href="{% url 'home' %}">{% trans 'Home' %}</a></li>
+            <li class="breadcrumb-item"><a href="javascript:void(0)">{{ headerText }}</a></li>
+        </ol>
+    </div>
+    <!-- row -->
+
+
+    <div class="row">
+        
+        <div class="col-12">
+            <div class="card">
+                
+                {% if createData != 'No' %}
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                        </div>
+                        <div class="col-md-8 text-right d-flex justify-content-md-end justify-content-center mt-3 mt-md-0">
+                            <a class="btn btn-secondary" href="{% url createData %}">
+                                <i class="mdi mdi-plus-box font-16 mr-1"></i>&nbsp;Add New
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                {% endif %}
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="example3" class="display" style="min-width: 845px">
+
+
+                            <!-- Product Category -->
+                            {% if headerText == 'Product Category' %}
+                            <thead>
+                                <tr>
+                                    <th>{% trans 'ID'%}</th>
+                                    <th>{% trans 'Product Category Name'%}</th>
+                                    <th>{% trans 'Created/Modified By'%}</th>
+                                    <th>{% trans 'Last Modification Date'%}</th>
+                                    <th>{% trans 'Actions'%} </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for product in products %}
+                                <tr>
+                                    <td>{{ product.id }}</td>
+                                    <td>{{ product.name }}</td>
+                                    <td>{{ product.createdBy }}</td>
+                                    <td>{{ product.creationDate }}</td>
+                                    <td>
+                                        <div class="d-flex">
+                                            <a href="{% url 'editproductcategory' product.id %}" data-toggle="tooltip" data-placement="top" title="Edit Product Category" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fas fa-pencil-alt"></i></a>
+                                            <a href="{% url 'deleteproductcategory' product.id %}" data-toggle="tooltip" data-placement="top" title="Delete Product Category" class="btn btn-danger shadow btn-xs sharp"><i class="fa fa-trash"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+
+
+
+
+                            <!-- Product -->
+                            {% elif headerText == 'Products' %}
+                            <thead>
+                                <tr>
+                                    <th>{% trans 'ID'%}</th>
+                                    <th>{% trans 'Product Name'%}</th>
+                                    <th>{% trans 'Product Category'%}</th>
+                                    <th>{% trans 'Measurement Unit'%}</th>
+                                    <th>{% trans 'Last Modified By'%}</th>
+                                    <th>{% trans 'Last Modification Date'%}</th>
+                                    <th>{% trans 'Actions'%} </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for product in products %}
+                                <tr>
+                                    <td>{{ product.id }}</td>
+                                    <td>{{ product.name }}</td>
+                                    <td>{{ product.productcategory }}</td>
+                                    <td>{{ product.measurementUnit }}</td>
+                                    <td>{{ product.createdBy }}</td>
+                                    <td>{{ product.creationDate }}</td>
+                                    <td>
+                                        <div class="d-flex">
+                                            <a href="{% url 'editproduct' product.id %}" data-toggle="tooltip" data-placement="top" title="Edit Product" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fas fa-pencil-alt"></i></a>
+                                            <a href="{% url 'deleteproduct' product.id %}" data-toggle="tooltip" data-placement="top" title="Delete Product" class="btn btn-danger shadow btn-xs sharp"><i class="fa fa-trash"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+
+
+
+
+
+
+
+                            <!-- Product Charging -->
+                            {% elif headerText == 'Product Charging' %}
+                            <thead>
+                                <tr>
+                                    <th>{% trans 'ID'%}</th>
+                                    <th>{% trans 'Product Name'%}</th>
+                                    <th>{% trans 'Price'%}</th>
+                                    <th>{% trans 'Start Date'%}</th>
+                                    <th>{% trans 'End Date'%}</th>
+                                    <th>{% trans 'Last Modified By'%}</th>
+                                    <th>{% trans 'Last Modification Date'%}</th>
+                                    <th>{% trans 'Actions'%} </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for product in products %}
+                                <tr>
+                                    <td>{{ product.id }}</td>
+                                    <td>{{ product.product.name }}</td>
+                                    <td>{{ product.price }}</td>
+                                    <td>{{ product.startDate }}</td>
+                                    <td>{{ product.endDate }}</td>
+                                    <td>{{ product.createdBy }}</td>
+                                    <td>{{ product.creationDate }}</td>
+                                    <td>
+                                        <div class="d-flex">
+                                            <a href="{% url 'editproductcharging' product.id %}" data-toggle="tooltip" data-placement="top" title="Edit Product Charging" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fas fa-pencil-alt"></i></a>
+                                            <a href="{% url 'deleteproductcharging' product.id %}" data-toggle="tooltip" data-placement="top" title="Delete Product Charging" class="btn btn-danger shadow btn-xs sharp"><i class="fa fa-trash"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+
+
+
+
+
+
+
+
+
+
+
+                            <!-- Supplier -->
+
+                            {% elif headerText == 'Supplier' %}
+                            <thead>
+                                <tr>
+                                    <th>{% trans 'Name'%}</th>
+                                    <th>{% trans 'Phone'%}</th>
+                                    <th>{% trans 'Address'%}</th>
+                                    <th>{% trans 'Contact Person'%}</th>
+                                    <th>{% trans 'Created/Modified By'%}</th>
+                                    <th>{% trans 'Last Modification Date'%}</th>
+                                    <th>{% trans 'Actions'%} </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for supplier in suppliers %}
+                                <tr>
+                                    <td>{{ supplier.name }}</td>
+                                    <td>{{ supplier.phone }}</td>
+                                    <td>{{ supplier.address }}</td>
+                                    <td>{{ supplier.contactPerson }}</td>
+                                    <td>{{ supplier.createdBy }}</td>
+                                    <td>{{ supplier.creationDate }}</td>
+                                    <td>
+                                        <div class="d-flex">
+                                            <a href="{% url 'editsupplier' supplier.id %}" data-toggle="tooltip" data-placement="top" title="Edit Supplier" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fas fa-pencil-alt"></i></a>
+                                            <a href="{% url 'deletesupplier' supplier.id %}" data-toggle="tooltip" data-placement="top" title="Delete Supplier" class="btn btn-danger shadow btn-xs sharp"><i class="fa fa-trash"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+
+
+
+
+
+
+                            {% elif headerText == 'Shipments' %}
+                            <thead>
+                                <tr>
+                                    <th>{% trans 'Product'%}</th>
+                                    <th>{% trans 'Supplier'%}</th>
+                                    <th>{% trans 'Vehicle No'%}</th>
+                                    <th>{% trans 'Driver Name'%}</th>
+                                    <th>{% trans 'Driver Phone'%}</th>
+                                    <th>{% trans 'Gross Weight'%}</th>
+                                    <th>{% trans 'Tare Weight'%}</th>
+                                    <th>{% trans 'Net Weight'%}</th>
+                                    <th>{% trans 'Created/Modified By'%}</th>
+                                    <th>{% trans 'Actions'%} </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for shipment in shipments %}
+                                <tr>
+                                    <td>{{ shipment.product }}</td>
+                                    <td>{{ shipment.supplier }}</td>
+                                    <td>{{ shipment.vehicleNo }}</td>
+                                    <td>{{ shipment.driverName }}</td>
+                                    <td>{{ shipment.driverPhone }}</td>
+                                    <td>{{ shipment.grossWeight }}</td>
+                                    <td>{{ shipment.tareWeight }}</td>
+                                    <td>{{ shipment.netWeight }}</td>
+                                    <td>{{ shipment.createdBy }}</td>
+                                    <td>
+                                        <div class="d-flex">
+                                            <a href="{% url 'editshipment' shipment.id %}" data-toggle="tooltip" data-placement="top" title="Edit Shipment" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fas fa-pencil-alt"></i></a>
+                                            <a href="{% url 'checkinreceipt' shipment.id %}" data-toggle="tooltip" data-placement="top" title="Check-In Receipt" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fas fa-file"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+
+
+
+
+
+
+                            {% elif headerText == 'Shipment Check-Out' %}
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>{% trans 'Vehicle No'%}</th>
+                                    <th>{% trans 'Driver Name'%}</th>
+                                    <th>{% trans 'Driver Phone'%}</th>
+                                    <th>{% trans 'Check-In Date & Time'%}</th>
+                                    <th>{% trans 'Actions'%} </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for shipment in shipments %}
+                                <tr>
+                                    <td>
+                                        <img src="{{ shipment.barcodeURL }}" style="height: 50px;">
+                                    </td>
+                                    <td>{{ shipment.vehicleNo }}</td>
+                                    <td>{{ shipment.driverName }}</td>
+                                    <td>{{ shipment.driverPhone }}</td>
+                                    <td>{{ shipment.deliveryEntryTime }}</td>
+                                    <td>
+                                        <div class="d-flex">
+                                            <a href="{% url 'shipment_checkout' shipment.id %}" data-toggle="tooltip" data-placement="top" title="Edit Shipment" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fas fa-pencil-alt"></i></a>
+                                            
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+
+                            
+                            
+
+
+                            {% elif headerText == 'Shipment Check-In Receipt' %}
+                            <tbody>
+                                <tr>
+                                    <td colspan="2">
+                                        <img src="{{ shipment.barcodeURL }}">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>{% trans 'Date'%}</td>
+                                    <td>{{ shipment.creationDate|date:'d-M-Y' }}</td>
+                                </tr>
+                                <tr>
+                                    <td>{% trans 'Vehicle No'%}</td>
+                                    <td>{{ shipment.vehicleNo }}</td>
+                                </tr>                                
+                                <tr>
+                                    <td>{% trans 'Check-In Time'%}</td>
+                                    <td>{{ shipment.deliveryEntryTime }}</td>
+                                </tr>
+                                <tr>
+                                    <td>{% trans 'Gross Weight'%}</td>
+                                    <td>{{ shipment.grossWeight }}</td>
+                                </tr>
+                            </tbody>
+
+
+
+                            {% else %}
+
+                            {% endif %}
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+{% endblock %}

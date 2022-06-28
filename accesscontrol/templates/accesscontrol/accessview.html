@@ -1,0 +1,132 @@
+{% extends 'vwm_master/base.html' %}
+
+{% load static %}
+
+
+{% block content %}
+<div class="container-fluid">
+				
+    <div class="row page-titles">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active"><a href="{% url 'home' %}">Home</a></li>
+            <li class="breadcrumb-item"><a href="javascript:void(0)">{{ headerText }}</a></li>
+        </ol>
+    </div>
+    <!-- row -->
+
+
+    <div class="row">
+        
+        <div class="col-12">
+            <div class="card">
+                
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                        </div>
+                        <div class="col-md-8 text-right d-flex justify-content-md-end justify-content-center mt-3 mt-md-0">
+                            <a class="btn btn-secondary" href="{% url createData %}">
+                                <i class="mdi mdi-plus-box font-16 mr-1"></i>&nbsp;Add New
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="example3" class="display" style="min-width: 845px">
+
+
+                            <!-- User Groups -->
+                            {% if headerText == 'User Groups' %}
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Group Name</th>
+                                    <th>No of Users</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for group in groups %}
+                                <tr>
+                                    <td>{{ group.id }}</td>
+                                    <td>{{ group.name }}</td>
+                                    <td>{{ group.user_set.count }}</td>
+                                    <td>
+                                        <!-- <div class="d-flex">
+                                            <a href="#" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fas fa-pencil-alt"></i></a>
+                                            <a href="#" class="btn btn-danger shadow btn-xs sharp"><i class="fa fa-trash"></i></a>
+                                        </div> -->
+                                        <a data-toggle="tooltip" data-placement="top" title="Add User to this group"
+                                            href="{% url 'assignusergroups' group.id %}">
+                                            <i class="fas fa-user-plus"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="4">No Records</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+
+
+
+
+                            <!-- Users -->
+                            {% elif headerText == 'Users' %}
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>User Name</th>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Email Address</th>
+                                    <th>User Group</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for usr in users %}
+                                <tr>
+                                    <td>{{ usr.id }}</td>
+                                    <td>{{ usr.username }}</td>
+                                    <td>{{ usr.first_name }}</td>
+                                    <td>{{ usr.last_name }}</td>
+                                    <td>{{ usr.email }}</td>
+                                    <td>
+                                        {% for i in usr.groups.all %}
+                                        {{ i.name }}
+                                        {% endfor %}
+                                    </td>
+                                    <td>
+                                        <div class="d-flex">
+                                            <a href="{% url 'edituser' usr.id %}" data-toggle="tooltip" data-placement="top" title="Edit User" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fas fa-pencil-alt"></i></a>
+                                            <a href="{% url 'resetpassword' usr.id %}" data-toggle="tooltip" data-placement="top" title="Re-Set Password" class="btn btn-danger shadow btn-xs sharp"><i class="mdi mdi-key-change"></i></a>
+                                        </div>
+                                    </td>
+                                    <!-- <td>
+                                        <a data-toggle="tooltip" data-placement="top" title="Re-Set Password"
+                                            href="{% url 'resetpassword' usr.id %}">
+                                            <i class="mdi mdi-key-change"></i>
+                                        </a>
+                                    </td> -->
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+
+
+
+                            {% else %}
+
+                            {% endif %}
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+{% endblock %}

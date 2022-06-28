@@ -1,0 +1,306 @@
+{% extends 'vwm_master/base.html' %}
+
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+<!-- ============================================================== -->
+<!-- Bread crumb and right sidebar toggle -->
+<!-- ============================================================== -->
+<div class="row page-titles">
+    <div class="col-md-5 col-12 align-self-center">
+        <h3 class="text-themecolor mb-0">{{ headerText }}</h3>
+        <ol class="breadcrumb mb-0 p-0 bg-transparent">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+            <li class="breadcrumb-item active">{{ headerText }}</li>
+        </ol>
+    </div>
+</div>
+<!-- ============================================================== -->
+<!-- End Bread crumb and right sidebar toggle -->
+<!-- ============================================================== -->
+
+<!-- ============================================================== -->
+<!-- Container fluid  -->
+<!-- ============================================================== -->
+<div class="container-fluid">
+    <!-- ============================================================== -->
+    <!-- Start Page Content -->
+    <!-- ============================================================== -->
+    <!-- row -->
+    <div class="row">
+        <div class="col-sm-12 col-lg-12">
+            <div class="card">
+
+
+                {% if headerText == "Delete" %}
+                <br>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <h4>Do you want to delete the {{ deletedItem }} "{{ deletedVal }}"?</h4>
+                        <p>
+                            <button type="submit" class="btn btn-secondary waves-effect waves-light">Yes</button>
+                            <a href="#" onclick="javascript:window.history.back(-1);return false;"
+                                            class="btn btn-dark waves-effect waves-light">Cancel</a>
+                        </p>
+                    </form>
+
+                    <div>
+                        <br>
+                        {% for message in messages %}
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            {{message}}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                </div>
+
+
+
+                
+
+
+                {% elif headerText == "Uesr Group" %}
+
+
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="card-body">
+
+                        <div class="row">
+                            <div class="col-sm-12 col-md-12">
+                                <div class="form-group">
+                                    <label for="normal-rounded-input">Group Name</label>
+                                    <input class="form-control" type="text" id="strGroupName" name="strGroupName"
+                                        placeholder="Group Name">
+                                </div>
+                                <hr>
+                                <div class="action-form">
+                                    <div class="form-group mb-0 text-left">
+                                        <button type="submit"
+                                            class="btn btn-secondary waves-effect waves-light">Save</button>
+                                        <a href="#" onclick="javascript:window.history.back(-1);return false;"
+                                            class="btn btn-dark waves-effect waves-light">Cancel</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+
+                <div>
+                    <br>
+                    {% for message in messages %}
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        {{message}}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {% endfor %}
+                </div>
+
+
+
+
+
+                {% elif headerText == 'Users' %}
+
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="card-body">
+
+                        <div class="row">
+                            <div class="col-sm-12 col-md-12">
+                                <div class="form-group">
+                                    <!--<label for="inputname" class="control-label col-form-label">First Name</label> -->
+                                    <!--<input type="text" class="form-control" id="inputname" placeholder="First Name Here">-->
+                                    {{ form | crispy }}
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-12">
+                                <div class="form-group">
+                                    <label>Assign Group</label>
+                                    <select class="default-select form-control wide mb-3" id="id_group" name="groupname">
+                                        <option>No Group</option>
+                                        {% for grp in groups %}
+                                        <option>{{ grp.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>                                
+                            </div>
+                            
+                        </div>
+
+                        <hr>
+                        <div class="action-form">
+                            <div class="form-group mb-0 text-left">
+                                <button type="submit" class="btn btn-secondary waves-effect waves-light">Save</button>
+                                <a href="#" onclick="javascript:window.history.back(-1);return false;"
+                                    class="btn btn-dark waves-effect waves-light">Cancel</a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <div>
+                    <br>
+                    {% for message in messages %}
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        {{message}}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {% endfor %}
+                </div>
+
+
+
+
+                {% elif headerText == 'Re-set Password' %}
+
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="card-body">
+
+                        <div class="row">
+                            <div class="col-sm-12 col-md-12">
+                                <div class="form-group">
+                                    <label for="password1" class="control-label col-form-label">New Password</label>
+                                    <input type="password" class="form-control" id="password1" name = "password1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="password2" class="control-label col-form-label">Re-enter Password</label>
+                                    <input type="password" class="form-control" id="password2" name = "password2">
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
+                        <div class="action-form">
+                            <div class="form-group mb-0 text-left">
+                                <button type="submit" class="btn btn-secondary waves-effect waves-light">Save</button>
+                                <a href="#" onclick="javascript:window.history.back(-1);return false;"
+                                    class="btn btn-dark waves-effect waves-light">Cancel</a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div>
+                    <br>
+                    {% for message in messages %}
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        {{message}}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {% endfor %}
+                </div>
+
+
+
+
+                {% elif headerText == 'Add User to Groups' %}
+
+
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="card-body">
+
+                        <div class="row">
+                            <div class="col-sm-12 col-md-12">
+                                <div class="form-group">
+                                    <label>Group Name</label>
+                                    <input class="form-control" type="text" value="{{ groups.name }}">
+                                </div>
+                                <div class="form-group">
+                                    <label>User Name</label>
+                                    <select class="form-control" id="id_user" name="username">
+                                        <option>Select Users</option>
+                                        {% for usr in users %}
+                                        <option>{{ usr.username }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="action-form">
+                                    <div class="form-group mb-0 text-left">
+                                        <button type="submit"
+                                            class="btn btn-secondary waves-effect waves-light">Save</button>
+                                        <a href="#" onclick="javascript:window.history.back(-1);return false;"
+                                            class="btn btn-dark waves-effect waves-light">Cancel</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+
+
+
+
+
+
+
+
+
+                {% else %}
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="card-body">
+
+                        <div class="row">
+                            <div class="col-sm-12 col-md-12">
+                                <div class="form-group">
+                                    {{ form | crispy }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
+                        <div class="action-form">
+                            <div class="form-group mb-0 text-left">
+                                <button type="submit" class="btn btn-secondary waves-effect waves-light">Save</button>
+                                <a href="#" onclick="javascript:window.history.back(-1);return false;"
+                                    class="btn btn-dark waves-effect waves-light">Cancel</a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <div>
+                    <br>
+                    {% for message in messages %}
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        {{message}}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <!-- End row -->
+    <!-- ============================================================== -->
+    <!-- End PAge Content -->
+    <!-- ============================================================== -->
+</div>
+
+
+{% endblock %}
+
+
+
